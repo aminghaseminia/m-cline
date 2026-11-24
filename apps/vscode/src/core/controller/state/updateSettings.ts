@@ -13,6 +13,7 @@ import { Controller } from ".."
 import { accountLogoutClicked } from "../account/accountLogoutClicked"
 import { normalizeProviderSwitchModel } from "../models/providerSwitchNormalization"
 import { createTaskApiModelShim, resolveActiveModelIdFromApiConfiguration } from "../models/taskApiModel"
+import { syncActiveProfileFromCurrentConfiguration } from "../profile/profile-store"
 
 /**
  * Updates multiple extension settings in a single request
@@ -58,6 +59,9 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 				controller.task.api = createTaskApiModelShim(modelId)
 			}
 			controller.handleApiConfigurationChanged(previousApiConfiguration, normalizedApiConfiguration)
+
+			// Keep the active M-Cline profile in sync with manual provider edits.
+			syncActiveProfileFromCurrentConfiguration(controller.stateManager)
 		}
 
 		// Update telemetry setting

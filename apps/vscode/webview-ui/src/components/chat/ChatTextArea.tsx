@@ -44,6 +44,7 @@ import {
 } from "@/utils/slash-commands"
 import ClineRulesToggleModal from "../cline-rules/ClineRulesToggleModal"
 import { getModeToggleDraftAction } from "./chat-textarea-mode-toggle"
+import ProfileQuickSwitcher from "./ProfileQuickSwitcher"
 import ServersToggleModal from "./ServersToggleModal"
 
 const { MAX_IMAGES_AND_FILES_PER_MESSAGE } = CHAT_CONSTANTS
@@ -1706,6 +1707,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									</ModelDisplayButton>
 								</ModelButtonWrapper>
 							</ModelContainer>
+
+							<ProfileQuickSwitcher />
 						</ButtonGroup>
 					</div>
 					{!cloudActOnly && (

@@ -743,8 +743,11 @@ export class StateManager {
 	 * Construct API configuration from cached component keys
 	 */
 	private constructApiConfigurationFromCache(): ApiConfiguration {
-		// Build secrets object
-		const secrets = Object.fromEntries(SecretKeys.map((key) => [key, this.getSecret(key)])) as Secrets
+		// Build secrets object. `mclineProfileSecrets` is excluded: it is a
+		// profile bookkeeping blob, not part of the active provider configuration.
+		const secrets = Object.fromEntries(
+			SecretKeys.filter((key) => key !== "mclineProfileSecrets").map((key) => [key, this.getSecret(key)]),
+		) as Secrets
 
 		// Preserve legacy fallback behavior for LiteLLM API key:
 		// if a remoteLiteLlmApiKey is set (via remote config), it should

@@ -15,6 +15,7 @@ import ClineModelPicker from "../ClineModelPicker"
 import Section from "../Section"
 import { syncModeConfigurations } from "../utils/providerUtils"
 import { useApiConfigurationHandlers } from "../utils/useApiConfigurationHandlers"
+import ProfilesSection from "./ProfilesSection"
 
 interface ApiConfigurationSectionProps {
 	renderSectionHeader?: (tabId: string) => JSX.Element | null
@@ -60,7 +61,14 @@ const ApiConfigurationSection = ({ renderSectionHeader, initialModelTab }: ApiCo
 				{isCloud ? (
 					<CloudModelSettings />
 				) : (
-					<LocalModelSettings currentTab={currentTab} initialModelTab={initialModelTab} setCurrentTab={setCurrentTab} />
+					<>
+						<ProfilesSection />
+						<LocalModelSettings
+							currentTab={currentTab}
+							initialModelTab={initialModelTab}
+							setCurrentTab={setCurrentTab}
+						/>
+					</>
 				)}
 			</Section>
 		</div>

@@ -1,0 +1,48 @@
+syntax = "proto3";
+package cline;
+
+import "cline/common.proto";
+
+option go_package = "github.com/cline/grpc-go/cline";
+option java_multiple_files = true;
+option java_package = "bot.cline.proto";
+
+// M-Cline: named provider profiles (provider + model + API key + endpoints)
+// that can be switched with one click. The profile contents live host-side;
+// the webview only ever sees summaries.
+service ProfileService {
+  rpc getProfiles(EmptyRequest) returns (ProfilesState);
+  // Saves the current provider configuration as a new named profile.
+  rpc saveProfile(SaveProfileRequest) returns (ProfilesState);
+  // Applies a profile: provider, model, keys and endpoint settings.
+  rpc activateProfile(StringRequest) returns (ProfilesState);
+  rpc renameProfile(RenameProfileRequest) returns (ProfilesState);
+  rpc deleteProfile(StringRequest) returns (ProfilesState);
+}
+
+message ProfileSummary {
+  string id = 1;
+  string name = 2;
+  // Provider id (e.g. "anthropic", "openrouter").
+  string provider = 3;
+  string model_id = 4;
+  // ISO-8601 timestamps, for display only.
+  string created_at = 5;
+  string updated_at = 6;
+  // True when this profile's settings match the live configuration.
+  bool modified = 7;
+}
+
+message ProfilesState {
+  repeated ProfileSummary profiles = 1;
+  string active_profile_id = 2;
+}
+
+message SaveProfileRequest {
+  string name = 1;
+}
+
+message RenameProfileRequest {
+  string id = 1;
+  string name = 2;
+}

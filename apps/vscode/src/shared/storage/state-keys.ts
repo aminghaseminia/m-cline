@@ -103,6 +103,11 @@ const GLOBAL_STATE_FIELDS = {
 	cloudSessionStatuses: { default: {} as RememberedCloudStatuses },
 	// Path to worktree that should auto-open Cline sidebar when launched
 	worktreeAutoOpenPath: { default: undefined as string | undefined },
+	// M-Cline provider profiles (JSON array, see src/core/controller/profile).
+	// Non-secret provider settings only; keys live in the mclineProfileSecrets secret.
+	mclineProfiles: { default: "" as string },
+	// Id of the profile that is currently applied ("" when none).
+	mclineActiveProfileId: { default: "" as string },
 } satisfies FieldDefinitions
 
 // Fields that map directly to ApiHandlerOptions in @shared/api.ts
@@ -364,6 +369,7 @@ const SECRETS_KEYS = [
 	"mcpOAuthSecrets",
 	"openai-codex-oauth-credentials", // JSON blob containing OAuth tokens for OpenAI Codex (ChatGPT subscription)
 	"wandbApiKey",
+	"mclineProfileSecrets", // M-Cline: JSON map of profileId -> { secretKey: value }
 ] as const
 
 // WARNING, these are not ALL of the local state keys in practice. For example, FileContextTracker
